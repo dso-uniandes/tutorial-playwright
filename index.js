@@ -1,12 +1,15 @@
 //Importar Playwright
 const playwright = require('playwright');
+const fs = require('fs');
+const path = require('path');
 
 const url = 'https://angular-6-registration-login-example.stackblitz.io/register';
 
 //Función flecha asíncrona
 (async () => {
   //Definir los navegadores en los que se quiere hacer la prueba
-  for (const browserType of ['chromium', 'firefox', 'webkit']) {
+  for (const browserType of ['chromium']) {
+  // for (const browserType of ['chromium', 'firefox', 'webkit']) {
     //Contenido de la prueba
     console.log(browserType+'-------------------------------------------')
 
@@ -64,5 +67,22 @@ const url = 'https://angular-6-registration-login-example.stackblitz.io/register
     //Finalizar la prueba
     await browser.close();
   }
+
+  //Eliminar navegadores de Playwright al finalizar la prueba
+  const playwrightBrowsersPath = path.join(
+    process.env.USERPROFILE,
+    'AppData',
+    'Local',
+    'ms-playwright'
+  );
+
+  fs.rm(playwrightBrowsersPath, { recursive: true, force: true }, (err) => {
+    if (err) {
+      console.error('Error al borrar los navegadores:', err);
+    } else {
+      console.log('✅ Navegadores eliminados con éxito para liberar espacio');
+    }
+  });
+
   return;
 })();//Llamado propio de la función

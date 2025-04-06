@@ -1,0 +1,1 @@
+// Agregar navegadores antes de correr la prueba npx playwright install
